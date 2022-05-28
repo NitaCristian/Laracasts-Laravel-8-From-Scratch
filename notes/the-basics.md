@@ -54,3 +54,8 @@ $post = cache()->remember("post.{$slug}", now()->addMinutes(20), function() {
 });
 ```
 
+# Collections
+
+To get all the posts we collect() all the files from a directory of posts and then apply some 
+methods to each post. First we map() each post to its parsed version, and each parsed posts will be 
+transformed into a Post object.
