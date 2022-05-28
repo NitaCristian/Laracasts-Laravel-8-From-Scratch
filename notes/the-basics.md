@@ -15,3 +15,42 @@ public/css folder.
 Changed the original / route to load a view called posts which shows a bunch of article posts.
 Then created a new route called /post which loads a view called post and displays a single post.
 For now all articles will link to that post.
+
+# Route Wildcards
+
+You can make a route accept a wildcard by wrapping that wildcard in braces. The value for will be passed as an
+argument to the function.
+
+```php
+Route::get('/post/{wildcard}', function($slug) {
+    // ...
+});
+```
+
+## Constrains
+
+Because that wildcard can be anything, it will accept values such as "!#?*&%$" and so on.
+We can constrain our routes using the `where` method which accepts a slug and a regular expression.
+
+```php
+Route::get('/post/{wildcard}', function($slug) {
+    // ...
+})->where('post', '[A-z_\-]+');
+```
+
+Additionally, there are methods to simplify this process such as whereAlpha(), whereNumeric(), whereAlphaNumeric().
+
+# Cache
+
+Our posts are retrieved every time we refresh our page and if 10000 users do this at the same time it will slow down our
+application. Instead, we can use caching.
+
+The function needs a unique id for the cached file, how long should it cache it for and a function to return that
+thing.
+
+```php
+$post = cache()->remember("post.{$slug}", now()->addMinutes(20), function() {
+    return file_get_contents($path);
+});
+```
+
