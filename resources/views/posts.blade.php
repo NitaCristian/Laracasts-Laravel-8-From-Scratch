@@ -1,17 +1,18 @@
-@extends('layout')
+<x-layout>
+    <x-slot name="content">
+        @foreach($posts as $post)
+            <article>
+                <h1>
+                    <a href="/post/{{$post->slug}}">
+                        {{ $post->title }}
+                    </a>
+                </h1>
 
-@section('content')
-    @foreach($posts as $post)
-        <article>
-            <h1>
-                <a href="/post/{{$post->slug}}">
-                    {{ $post->title }}
-                </a>
-            </h1>
+                <div>
+                    {!! $post->excerpt !!}
+                </div>
+            </article>
+        @endforeach
 
-            <div>
-                {!! $post->excerpt !!}
-            </div>
-        </article>
-    @endforeach
-@endsection
+    </x-slot>
+</x-layout>
